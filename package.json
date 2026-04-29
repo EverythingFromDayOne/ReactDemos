@@ -8,7 +8,9 @@
     "lint": "turbo lint"
   },
   "devDependencies": {
+    "@tailwindcss/vite": "^4.2.4",
     "husky": "^9.1.7",
+    "tailwindcss": "^4.2.4",
     "turbo": "2.9.6"
   }
 }
