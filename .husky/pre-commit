@@ -1,0 +1,21 @@
+shcode_changed=false
+for file in $(git diff --cached --name-only); do
+  if echo "$file" | grep -qE '\.(ts|tsx|js|jsx|css)$'; then
+    code_changed=true
+    break
+  fi
+done
+
+if [ "$code_changed" = "true" ]; then
+  found=false
+  for file in $(git diff --cached --name-only); do
+    if [ "$file" = "CHANGELOG.md" ]; then
+      found=true
+      break
+    fi
+  done
+  if [ "$found" != "true" ]; then
+    echo "CHANGELOG.md not updated — did you document this change?"
+    exit 1
+  fi
+fi
