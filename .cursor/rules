@@ -1,0 +1,34 @@
+---
+alwaysApply: true
+---
+
+# ReactDemos Repository Context
+
+This repository is a monorepo comparing React 16 and React 19 patterns side by side, hosted on Vercel, built with Turborepo + pnpm + Vite + Tailwind CSS 4.
+
+## Apps
+
+- `apps/react-v19` on port `5173`
+- `apps/react-v16` on port `5174`
+
+## Hosting
+
+- `react19.nxhhuy.tech` and `react16.nxhhuy.tech` on Vercel
+- DNS managed via Cloudflare/Namecheap
+
+## CI/CD
+
+- GitHub Actions -> Vercel CLI deploy on push to `development`
+- Telegram notifications
+
+## Workflow Rules (Always Follow)
+
+1. Stop and ask before every next step; never proceed autonomously.
+2. After every session:
+   - Append a dated entry to `.agents/SESSION-LOG.md` (what was done, what's next, any blockers).
+   - Update `CHANGELOG.md` under `## [Unreleased]`.
+3. When working on React components or performance, consult `.agents/skills/vercel-react-best-practices/`.
+4. When working on component architecture or React 19 APIs, consult `.agents/skills/vercel-composition-patterns/`.
+5. When working on animations or view transitions, consult `.agents/skills/vercel-react-view-transitions/`.
+6. When deploying to Vercel via CLI or tokens, consult `.agents/skills/vercel-cli-with-tokens/`.
+7. Always prefer explicit over implicit: no magic, no assumptions.
