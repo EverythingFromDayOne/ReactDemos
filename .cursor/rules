@@ -24,11 +24,14 @@ This repository is a monorepo comparing React 16 and React 19 patterns side by s
 ## Workflow Rules (Always Follow)
 
 1. Stop and ask before every next step; never proceed autonomously.
-2. After every session:
-   - Append a dated entry to `.agents/SESSION-LOG.md` (what was done, what's next, any blockers).
-   - Update `CHANGELOG.md` under `## [Unreleased]`.
-3. When working on React components or performance, consult `.agents/skills/vercel-react-best-practices/`.
-4. When working on component architecture or React 19 APIs, consult `.agents/skills/vercel-composition-patterns/`.
-5. When working on animations or view transitions, consult `.agents/skills/vercel-react-view-transitions/`.
-6. When deploying to Vercel via CLI or tokens, consult `.agents/skills/vercel-cli-with-tokens/`.
-7. Always prefer explicit over implicit: no magic, no assumptions.
+2. After EVERY task - not just at end of session - Cursor must:
+   - Add a dated bullet to `.agents/SESSION-LOG.md` describing exactly what changed and what's next.
+   - Update `CHANGELOG.md` under `## [Unreleased]` with the specific files and changes made.
+   - Complete both documentation updates before considering the task complete.
+3. If Cursor makes any file change without updating both `.agents/SESSION-LOG.md` and `CHANGELOG.md`, that is a workflow violation.
+4. `summary.md` must be updated whenever "Current status" or "Pending" changes.
+5. When working on React components or performance, consult `.agents/skills/vercel-react-best-practices/`.
+6. When working on component architecture or React 19 APIs, consult `.agents/skills/vercel-composition-patterns/`.
+7. When working on animations or view transitions, consult `.agents/skills/vercel-react-view-transitions/`.
+8. When deploying to Vercel via CLI or tokens, consult `.agents/skills/vercel-cli-with-tokens/`.
+9. Always prefer explicit over implicit: no magic, no assumptions.
