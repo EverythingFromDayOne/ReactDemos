@@ -107,6 +107,15 @@ importers:
         specifier: ^8.0.10
         version: 8.0.10(@types/node@24.12.2)
 
+  apps/shell:
+    devDependencies:
+      typescript:
+        specifier: ~6.0.2
+        version: 6.0.3
+      vite:
+        specifier: ^8.0.10
+        version: 8.0.10(@types/node@24.12.2)
+
 packages:
 
   '@babel/code-frame@7.29.0':

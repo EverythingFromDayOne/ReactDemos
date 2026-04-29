@@ -19,3 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Scaffolded `apps/react-v16` (Vite 8, React 16, TypeScript, port 5174, ReactDOM.render).
 - Added `postcss.config.js` to both apps to resolve Vite 8 PostCSS config search issue.
 - Both dev servers verified running in parallel via Turborepo.
+
+### Added
+
+- Added `apps/shell` - a plain Vite + TypeScript iframe shell at port 3000 that displays `apps/react-v16` (port 5174) and `apps/react-v19` (port 5173) side by side; confirmed both React versions rendering correctly (React 16.14.0 and React 19.2.5).
