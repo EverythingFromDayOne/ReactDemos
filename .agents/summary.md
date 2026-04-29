@@ -36,10 +36,8 @@
 
 ## Current Status
 
-- Monorepo root scaffolded
-- Skills installed
-- Apps not yet created
+- Monorepo root scaffolded (Turborepo 2.9.6, pnpm 10.33.2); 4 Cursor skills installed (vercel-react-best-practices, vercel-composition-patterns, vercel-react-view-transitions, vercel-cli-with-tokens); self-reporting files created (.cursor/rules, .agents/summary.md, .agents/SESSION-LOG.md, CHANGELOG.md); both Vite apps scaffolded - apps/react-v19 (React 19, port 5173, createRoot) and apps/react-v16 (React 16, port 5174, ReactDOM.render); postcss.config.js added to both apps to fix PostCSS config search in Vite 8; both dev servers confirmed running via pnpm dev
 
 ## Pending
 
-- Scaffold `apps/react-v19` and `apps/react-v16`
+- integration shell page (iframe-based, apps/shell, port 3000); Tailwind CSS 4; Vercel hosting setup; GitHub Actions CI/CD + Telegram notifications; branch protection rules

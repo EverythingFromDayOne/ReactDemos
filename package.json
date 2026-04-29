@@ -1,4 +1,4 @@
-﻿{
+{
   "name": "reactdemos",
   "private": true,
   "packageManager": "pnpm@10.33.2",
@@ -8,6 +8,7 @@
     "lint": "turbo lint"
   },
   "devDependencies": {
+    "husky": "^9.1.7",
     "turbo": "2.9.6"
   }
 }
