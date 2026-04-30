@@ -21,6 +21,7 @@
 - Added `.github/workflows/deploy.yml` to deploy `react-v19` and `react-v16` to Vercel production on pushes to `development`.
 - Added Telegram notification step for deploy success/failure with commit and run details.
 - Updated `CHANGELOG.md` and `.agents/summary.md` to reflect CI/CD workflow setup and deployment status.
+- Fixed deploy workflow YAML parsing issue in notify job by replacing heredoc message construction with `printf`.
 
 ### Next
 

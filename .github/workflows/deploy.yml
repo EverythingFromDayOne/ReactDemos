@@ -110,26 +110,11 @@ jobs:
           RUN_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
 
           if [ "$V19_RESULT" = "success" ] && [ "$V16_RESULT" = "success" ]; then
-            TEXT=$(cat <<EOF
-✅ <b>ReactDemos deployed</b>
-
-📦 Branch: <code>development</code>
-🔗 Commit: <code>${SHORT_SHA}</code>
-
-🟢 React 19: ${V19_URL}
-🟢 React 16: ${V16_URL}
-EOF
-)
+            TEXT=$(printf "✅ <b>ReactDemos deployed</b>\n\n📦 Branch: <code>development</code>\n🔗 Commit: <code>%s</code>\n\n🟢 React 19: %s\n🟢 React 16: %s" \
+              "$SHORT_SHA" "$V19_URL" "$V16_URL")
           else
-            TEXT=$(cat <<EOF
-❌ <b>ReactDemos deploy FAILED</b>
-
-📦 Branch: <code>development</code>
-🔗 Commit: <code>${SHORT_SHA}</code>
-
-Check logs: ${RUN_URL}
-EOF
-)
+            TEXT=$(printf "❌ <b>ReactDemos deploy FAILED</b>\n\n📦 Branch: <code>development</code>\n🔗 Commit: <code>%s</code>\n\nCheck logs: %s" \
+              "$SHORT_SHA" "$RUN_URL")
           fi
 
           curl -sS -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
