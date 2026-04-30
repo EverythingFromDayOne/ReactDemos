@@ -27,3 +27,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Tailwind CSS 4 installed via `@tailwindcss/vite` plugin at root; applied to all three apps (`react-v16`, `react-v19`, `shell`); verified rendering with utility classes in all three iframes.
+- Add GitHub Actions deploy workflow with Telegram notifications.
