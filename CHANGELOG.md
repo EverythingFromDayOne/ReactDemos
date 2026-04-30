@@ -30,3 +30,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add GitHub Actions deploy workflow with Telegram notifications.
 - Fix YAML heredoc syntax error in deploy workflow.
 - Use npm to install Vercel CLI globally in deploy workflow jobs.
+- Finalize custom domains eact19.nxhhuy.tech and eact16.nxhhuy.tech for production hosting.
