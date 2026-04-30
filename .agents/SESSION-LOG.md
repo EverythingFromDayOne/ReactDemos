@@ -30,3 +30,5 @@
 ### Blockers
 
 - Vercel and Telegram secrets are not configured in GitHub yet.
+
+- Finalized custom production domains `react19.nxhhuy.tech` and `react16.nxhhuy.tech`; next: complete secrets setup and run workflow validation; blockers: GitHub/Vercel integration secrets still pending.
