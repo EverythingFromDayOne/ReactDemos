@@ -4,9 +4,13 @@ on:
   push:
     branches:
       - development
+  pull_request:
+    branches:
+      - development
 
 jobs:
   deploy-v19:
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
     env:
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
@@ -48,6 +52,7 @@ jobs:
           echo "url=$url" >> "$GITHUB_OUTPUT"
 
   deploy-v16:
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
     env:
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
@@ -89,9 +94,9 @@ jobs:
           echo "url=$url" >> "$GITHUB_OUTPUT"
 
   notify:
+    if: github.event_name == 'push' && always()
     runs-on: ubuntu-latest
     needs: [deploy-v19, deploy-v16]
-    if: always()
     steps:
       - name: Send Telegram notification
         env:
@@ -121,3 +126,45 @@ jobs:
             -d chat_id="${TELEGRAM_CHAT_ID}" \
             -d parse_mode="HTML" \
             --data-urlencode text="${TEXT}"
+
+  changelog-comment:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    permissions:
+      pull-requests: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Extract unreleased changelog
+        id: changelog
+        run: |
+          CONTENT=$(awk '/^## \[Unreleased\]/{found=1; next} found && /^## /{exit} found && /[^[:space:]]/{print}' CHANGELOG.md)
+          if [ -z "$CONTENT" ]; then
+            CONTENT="_No unreleased changes documented yet._"
+          fi
+          {
+            echo "content<<EOF"
+            echo "$CONTENT"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Find existing changelog comment
+        id: find-comment
+        uses: peter-evans/find-comment@v3
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          comment-author: github-actions[bot]
+          body-includes: "<!-- changelog-comment -->"
+
+      - name: Post or update changelog PR comment
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          comment-id: ${{ steps.find-comment.outputs.comment-id }}
+          issue-number: ${{ github.event.pull_request.number }}
+          edit-mode: replace
+          body: |
+            <!-- changelog-comment -->
+            ## What changed in this PR
+
+            ${{ steps.changelog.outputs.content }}

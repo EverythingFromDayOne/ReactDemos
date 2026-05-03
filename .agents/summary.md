@@ -33,12 +33,12 @@
 
 ## CI/CD
 
-- GitHub Actions + Vercel CLI + Telegram notifications on push to `development`
+- GitHub Actions + Vercel CLI + Telegram notifications on push to `development`; PRs targeting `development` run a **`changelog-comment`** job (sticky “What changed” from `CHANGELOG.md`); deploy jobs do not run on PRs.
 
 ## Current Status
 
-- Monorepo root scaffolded (Turborepo 2.9.6, pnpm 10.33.2); 4 Cursor skills installed (vercel-react-best-practices, vercel-composition-patterns, vercel-react-view-transitions, vercel-cli-with-tokens); self-reporting files created (.cursor/rules, .agents/summary.md, .agents/SESSION-LOG.md, CHANGELOG.md); both Vite apps scaffolded - apps/react-v19 (React 19, port 5173, createRoot) and apps/react-v16 (React 16, port 5174, ReactDOM.render); postcss.config.js added to both apps to fix PostCSS config search in Vite 8; apps/shell created and verified at localhost:3000; Tailwind CSS 4 enabled across all three apps; GitHub Actions deploy workflow created for Vercel + Telegram notifications on push to `development`; notify job YAML syntax fixed by replacing heredoc with `printf`; deploy jobs updated to install Vercel CLI via `npm install -g vercel`; custom domains finalized for `react19.nxhhuy.tech` and `react16.nxhhuy.tech`
+- Monorepo root scaffolded (Turborepo 2.9.6, pnpm 10.33.2); 4 Cursor skills installed; both Vite apps (`react-v19`, `react-v16`), `apps/shell`, Tailwind 4, and GitHub Actions deploy to Vercel + Telegram on `development`; domains `react19.nxhhuy.tech` / `react16.nxhhuy.tech`. **`apps/react-v19` `/roadmap`**: SVG spine/branch graph, pan/zoom, detail panel, **`RoadmapNode`** border color matches **status** dot, `foreignObject` title/badge layout, tuned box sizes in `roadmap-layout.ts`.
 
 ## Pending
 
-- Configure GitHub secrets for Vercel + Telegram and validate workflow; disable Vercel auto-deploy in both projects; branch protection rules
+- Configure GitHub secrets for Vercel + Telegram and validate workflow; disable Vercel auto-deploy in both projects; branch protection rules; keep `feat/roadmap` in sync or remove after feature work is fully on `development`.
