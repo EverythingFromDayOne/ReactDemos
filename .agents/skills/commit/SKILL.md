@@ -1,28 +1,27 @@
 ---
 name: commit
-description: Update CHANGELOG.md, summary.md, and SESSION-LOG.md with what changed, then stage, commit, and push to development. Use when the user says "/commit", "commit and push", "ship these changes", or "push this".
+description: Update CHANGELOG.md, summary.md, and SESSION-LOG.md with what changed, then stage, commit, and push to the current working branch. Use when the user says "/commit", "commit and push", "ship these changes", or "push this".
 ---
 
 # commit
 
 ## When to use
-
-Use this skill when the user is ready to commit and push their current changes to the `development` branch.
+Use this skill when the user is ready to commit and push their current changes.
 
 ## Instructions
-
-1. Ask the user for a one-line commit message if they haven't already provided one
-2. Update `CHANGELOG.md` — under `## [Unreleased]`, add a `### Added` / `### Changed` / `### Fixed` entry (pick the right heading) summarising exactly what files changed and why
-3. Update `.agents/summary.md` — update "Current status" and "Pending" to reflect the state after this commit
-4. Update `.agents/SESSION-LOG.md` — append a dated bullet: what was done, what's next, any blockers
-5. Run: `git add .`
-6. Run: `git commit -m "<commit message from step 1>"`
-7. Run: `git push origin development`
-8. Confirm the push succeeded and report the commit hash
+1. Ask for commit message if not provided
+2. Update CHANGELOG.md under ## [Unreleased]
+3. Update .agents/summary.md with any new key facts
+4. Update .agents/SESSION-LOG.md with today's date and what was done
+5. Run: git add CHANGELOG.md .agents/summary.md .agents/SESSION-LOG.md
+6. Run: git commit -m "<message>"
+7. Run: git push origin HEAD
+8. Confirm push and report commit hash
 
 ## Rules
-
-- Never skip steps 2–4 — docs must be updated before the commit goes through
-- Never commit without a message
-- Always push to `development` unless the user explicitly says otherwise
-- If the husky hook blocks the commit, diagnose and fix before retrying
+- Never skip steps 2-4
+- Never commit without message
+- Only stage CHANGELOG.md, .agents/summary.md, and .agents/SESSION-LOG.md — never run `git add .` — the user controls what else is staged
+- Always push to the current branch using `git push origin HEAD` — never push to `development` directly
+- Never checkout, merge into, or push `development` — that happens via PR only
+- If husky or pre-commit hook blocks commit, diagnose and fix before retrying
