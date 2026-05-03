@@ -63,7 +63,7 @@
 
 ### Next
 
-- Open or update a PR against `development` to confirm the changelog comment job; spot-check `/roadmap` node borders per status.
+- Open a **pull request** from `feat/roadmap` into `development` (direct push to `development` is blocked by repo rules); after merge, confirm deploy and the **`changelog-comment`** job; spot-check `/roadmap` node borders per status.
 
 ### Blockers
 
