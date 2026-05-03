@@ -33,12 +33,12 @@
 
 ## CI/CD
 
-- GitHub Actions + Vercel CLI + Telegram notifications on push to `development`
+- GitHub Actions + Vercel CLI + Telegram notifications on push to `development`; PRs targeting `development` run a **`changelog-comment`** job (sticky “What changed” from `CHANGELOG.md`); deploy jobs do not run on PRs.
 
 ## Current Status
 
-- Monorepo root scaffolded (Turborepo 2.9.6, pnpm 10.33.2); 4 Cursor skills installed; both Vite apps (`react-v19`, `react-v16`), `apps/shell`, Tailwind 4, and GitHub Actions deploy to Vercel + Telegram on `development`; domains `react19.nxhhuy.tech` / `react16.nxhhuy.tech`. **`apps/react-v19` `/roadmap`** is shipped: SVG spine/branch graph from `public/assets/react-roadmap.json`, pan/zoom, header + legend, detail panel, `react-router-dom` + typed router shim.
+- Monorepo root scaffolded (Turborepo 2.9.6, pnpm 10.33.2); 4 Cursor skills installed; both Vite apps (`react-v19`, `react-v16`), `apps/shell`, Tailwind 4, and GitHub Actions deploy to Vercel + Telegram on `development`; domains `react19.nxhhuy.tech` / `react16.nxhhuy.tech`. **`apps/react-v19` `/roadmap`**: SVG spine/branch graph, pan/zoom, detail panel, **`RoadmapNode`** border color matches **status** dot, `foreignObject` title/badge layout, tuned box sizes in `roadmap-layout.ts`.
 
 ## Pending
 
-- Configure GitHub secrets for Vercel + Telegram and validate workflow; disable Vercel auto-deploy in both projects; branch protection rules; merge or delete `feat/roadmap` after `development` is updated if work was merged via PR.
+- Configure GitHub secrets for Vercel + Telegram and validate workflow; disable Vercel auto-deploy in both projects; branch protection rules; keep `feat/roadmap` in sync or remove after feature work is fully on `development`.

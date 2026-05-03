@@ -201,7 +201,7 @@ export default function RoadmapPage() {
         />
 
         <div
-          className={`pointer-events-none absolute bottom-6 z-20 flex flex-col gap-2 ${detailOpen ? 'right-[calc(360px+1rem)]' : 'right-4'}`}
+          className={`pointer-events-none absolute bottom-6 z-20 flex flex-col gap-2 ${detailOpen ? 'right-[calc(360px+1rem)]' : 'right-4'} duration-150`}
         >
           <div className="pointer-events-auto flex flex-col gap-1 rounded-lg border border-slate-700 bg-slate-900/95 p-1 shadow-lg">
             <button

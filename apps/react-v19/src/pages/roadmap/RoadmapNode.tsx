@@ -1,4 +1,3 @@
-import type { ReactNode } from 'react';
 import type { PlacedNode, RoadmapBadge, RoadmapTreeNode } from './roadmap.types';
 
 const STATUS_STROKE: Record<RoadmapTreeNode['status'], string> = {
@@ -26,16 +25,7 @@ const BADGE_LABEL: Record<RoadmapBadge, string> = {
   recommended: 'Recommended',
 };
 
-const BADGE_W: Record<RoadmapBadge, number> = {
-  NEW: 34,
-  optional: 52,
-  recommended: 82,
-};
-
-const BADGE_H = 14;
-const BADGE_INSET = 7;
-/** When a badge exists, shift title down so it clears the badge row */
-const TITLE_SHIFT_WITH_BADGE = 9;
+const XHTML_NS = 'http://www.w3.org/1999/xhtml';
 
 interface Props {
   placed: PlacedNode;
@@ -48,51 +38,11 @@ export function RoadmapNode({ placed, data, selected, onActivate }: Props) {
   const stroke = STATUS_STROKE[data.status];
   const fill =
     placed.kind === 'spine' ? 'rgba(30, 41, 59, 0.95)' : 'rgba(15, 23, 42, 0.95)';
-  const textFill = '#cbd5e1';
-  const hasBadge = Boolean(data.badge);
-  const dotCx = placed.x + 11;
-  const dotCy = placed.y + placed.height / 2;
-  const textX = placed.x + placed.width / 2 + 6;
-  const textY =
-    placed.y + placed.height / 2 + (hasBadge ? TITLE_SHIFT_WITH_BADGE : 0);
-  const padX = 14;
-  const badgeReserve = hasBadge ? BADGE_W[data.badge!] + BADGE_INSET * 2 + 6 : 10;
-  const maxTextWidth = placed.width - padX * 2 - badgeReserve;
-
-  let badgeMarkup: ReactNode = null;
-  if (data.badge) {
-    const b = data.badge;
-    const bw = Math.min(BADGE_W[b], placed.width - BADGE_INSET * 2 - 4);
-    const bx = placed.x + placed.width - BADGE_INSET - bw;
-    const by = placed.y + BADGE_INSET;
-    badgeMarkup = (
-      <g pointerEvents="none">
-        <rect
-          x={bx}
-          y={by}
-          width={bw}
-          height={BADGE_H}
-          rx={3}
-          fill={BADGE_FILL[b]}
-          stroke={BADGE_STROKE[b]}
-          strokeWidth={1}
-        />
-        <text
-          x={bx + bw / 2}
-          y={by + BADGE_H / 2}
-          textAnchor="middle"
-          dominantBaseline="middle"
-          fill="#e2e8f0"
-          fontSize={b === 'recommended' ? 7.5 : 8.5}
-          fontWeight={600}
-          fontFamily="system-ui, sans-serif"
-          letterSpacing={0}
-        >
-          {BADGE_LABEL[b]}
-        </text>
-      </g>
-    );
-  }
+  const b = data.badge;
+  const titleClass =
+    placed.kind === 'spine'
+      ? 'text-sm font-semibold leading-tight text-slate-50'
+      : 'text-[13px] font-semibold leading-tight text-slate-50';
 
   return (
     <g
@@ -151,34 +101,49 @@ export function RoadmapNode({ placed, data, selected, onActivate }: Props) {
         rx={placed.rx}
         fill={fill}
         stroke={stroke}
-        strokeWidth={1.5}
+        strokeWidth={1}
       />
 
-      <circle cx={dotCx} cy={dotCy} r={5} fill={stroke} pointerEvents="none" />
-
-      {badgeMarkup}
-
-      <text
-        x={textX}
-        y={textY}
-        textAnchor="middle"
-        dominantBaseline="middle"
-        fill={textFill}
-        fontSize={placed.kind === 'spine' ? 13 : 12}
-        fontWeight={500}
-        fontFamily="system-ui, sans-serif"
+      <foreignObject
+        x={placed.x}
+        y={placed.y}
+        width={placed.width}
+        height={placed.height}
+        overflow="visible"
         pointerEvents="none"
-        style={{ userSelect: 'none' }}
       >
-        {truncateTitle(data.title, maxTextWidth, placed.kind === 'spine' ? 13 : 12)}
-      </text>
+        <div
+          className="relative box-border h-full w-full select-none"
+          style={{ overflow: 'visible' }}
+          {...({ xmlns: XHTML_NS } as Record<string, string>)}
+        >
+          <div
+            className="pointer-events-none absolute left-3 top-1/2 z-10 h-2 w-2 -translate-y-1/2 rounded-full"
+            style={{ backgroundColor: stroke }}
+          />
+
+          <div className="flex h-full w-full items-center justify-center px-12">
+            <span
+              className={`${titleClass} min-w-0 w-full truncate text-center`}
+              title={data.title}
+            >
+              {data.title}
+            </span>
+          </div>
+
+          {b && (
+            <div
+              className="pointer-events-none absolute right-2 top-2 rounded-md px-2 py-0.5 text-[10px] font-semibold leading-none text-slate-100 shadow-sm"
+              style={{
+                backgroundColor: BADGE_FILL[b],
+                border: `1px solid ${BADGE_STROKE[b]}`,
+              }}
+            >
+              {BADGE_LABEL[b]}
+            </div>
+          )}
+        </div>
+      </foreignObject>
     </g>
   );
-}
-
-function truncateTitle(title: string, maxPx: number, fontSize: number): string {
-  const approxChar = fontSize * 0.52;
-  const maxChars = Math.max(4, Math.floor(maxPx / approxChar));
-  if (title.length <= maxChars) return title;
-  return `${title.slice(0, maxChars - 1)}…`;
 }

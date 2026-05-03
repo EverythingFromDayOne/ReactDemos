@@ -1,11 +1,11 @@
 import type { RoadmapLayout, RoadmapTreeNode, PlacedLine, PlacedNode, SpineArrow } from './roadmap.types';
 
-const SPINE_W = 268;
-const SPINE_H = 56;
-const SPINE_RX = 14;
-const BRANCH_W = 216;
-const BRANCH_H = 46;
-const BRANCH_RX = 10;
+const SPINE_W = 300;
+const SPINE_H = 64;
+const SPINE_RX = 18;
+const BRANCH_W = 252;
+const BRANCH_H = 78;
+const BRANCH_RX = 16;
 
 const DROP = 20;
 const CHILD_H_GAP = 28;

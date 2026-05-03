@@ -56,6 +56,19 @@
 
 - Spot-check badge nodes and tall spine gaps in the browser.
 
+## 2026-05-04 (feat: update css)
+
+- **`feat: update css`**: `RoadmapNode.tsx` — node **SVG stroke** matches **status** color (same as dot); **`foreignObject`** + Tailwind for centered title and corner badge; `roadmap-layout.ts` — larger spine/branch boxes and radii; `RoadmapPage.tsx` — `duration-150` on zoom control stack.
+- **`.github/workflows/deploy.yml`**: `pull_request` on `development`; **`changelog-comment`** job; **`deploy-v19`**, **`deploy-v16`**, **`notify`** gated to **`push`** only.
+
+### Next
+
+- Open or update a PR against `development` to confirm the changelog comment job; spot-check `/roadmap` node borders per status.
+
+### Blockers
+
+- None noted for this commit.
+
 ## 2026-05-05
 
 - Committed **`feat: build roadmap page`** on branch `feat/roadmap`: react-v19 SVG `/roadmap`, JSON data, router + typed shim, changelog/session/summary updates, prompt markdown files.
