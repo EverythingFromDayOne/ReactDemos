@@ -1,0 +1,361 @@
+{
+  "spine": [
+    {
+      "id": "react-foundations",
+      "title": "React Foundations",
+      "status": "done",
+      "description": "The essential building blocks every React app is built on — JSX syntax, function components, props, and local state."
+    },
+    {
+      "id": "core-hooks",
+      "title": "Core Hooks",
+      "status": "done",
+      "description": "The built-in hooks that power side effects, DOM access, and performance in function components.",
+      "children": [
+        {
+          "id": "use-effect",
+          "title": "useEffect",
+          "status": "done",
+          "description": "Run side effects after render: data fetching, subscriptions, DOM mutations. The cleanup function prevents memory leaks."
+        },
+        {
+          "id": "use-ref",
+          "title": "useRef",
+          "status": "done",
+          "route": "/use-ref-demo",
+          "description": "A mutable ref that persists across renders without triggering re-render. Used for DOM access and storing previous values."
+        },
+        {
+          "id": "memoization",
+          "title": "Memoization",
+          "status": "in-progress",
+          "description": "Stabilize references and skip expensive recalculations across renders.",
+          "children": [
+            {
+              "id": "use-callback",
+              "title": "useCallback",
+              "status": "in-progress",
+              "description": "Memoize a callback so its reference stays stable. Prevents unnecessary child re-renders."
+            },
+            {
+              "id": "use-memo",
+              "title": "useMemo",
+              "status": "in-progress",
+              "description": "Memoize the result of an expensive computation. Recalculates only when dependencies change."
+            }
+          ]
+        },
+        {
+          "id": "use-context",
+          "title": "useContext",
+          "status": "planned",
+          "description": "Consume a context value without prop drilling. Pairs with createContext and a Provider component."
+        },
+        {
+          "id": "use-reducer",
+          "title": "useReducer",
+          "status": "planned",
+          "description": "Manage complex state with a reducer function and dispatch/actions pattern — the same model as Redux, built-in."
+        }
+      ]
+    },
+    {
+      "id": "component-patterns",
+      "title": "Component Patterns",
+      "status": "in-progress",
+      "description": "Composition and rendering techniques that make components flexible and reusable.",
+      "children": [
+        {
+          "id": "conditional-rendering",
+          "title": "Conditional Rendering",
+          "status": "done",
+          "description": "Render UI conditionally using &&, ternary operators, or early return."
+        },
+        {
+          "id": "lists-keys",
+          "title": "Lists & Keys",
+          "status": "done",
+          "description": "Render arrays with Array.map(). The key prop helps React identify which items changed."
+        },
+        {
+          "id": "fragments",
+          "title": "Fragments",
+          "status": "in-progress",
+          "description": "Group multiple elements without adding extra DOM nodes. Use <> shorthand or <React.Fragment> with a key."
+        },
+        {
+          "id": "portals",
+          "title": "Portals",
+          "status": "planned",
+          "description": "Render a child into a DOM node outside the parent hierarchy. Useful for modals, tooltips, and dropdowns."
+        },
+        {
+          "id": "error-boundaries",
+          "title": "Error Boundaries",
+          "status": "planned",
+          "description": "Catch rendering errors in a subtree and show a fallback UI instead of crashing the whole app."
+        }
+      ]
+    },
+    {
+      "id": "state-management",
+      "title": "State Management",
+      "status": "in-progress",
+      "description": "Patterns and libraries for sharing and scaling state across the component tree.",
+      "children": [
+        {
+          "id": "context-api",
+          "title": "Context API",
+          "status": "in-progress",
+          "description": "Built-in global state sharing. Great for low-frequency updates like theme or auth."
+        },
+        {
+          "id": "external-stores",
+          "title": "External Stores",
+          "status": "planned",
+          "description": "Dedicated state libraries that avoid Context re-render pitfalls at scale.",
+          "children": [
+            {
+              "id": "zustand",
+              "title": "Zustand",
+              "status": "planned",
+              "description": "Lightweight store with minimal boilerplate. Subscribe only to the slices you need."
+            },
+            {
+              "id": "redux-toolkit",
+              "title": "Redux Toolkit",
+              "status": "planned",
+              "description": "The modern, opinionated way to write Redux. Slices, createAsyncThunk, and RTK Query."
+            },
+            {
+              "id": "jotai",
+              "title": "Jotai",
+              "status": "skipped",
+              "description": "Atomic state management — each piece of state is an independent atom."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "data-fetching",
+      "title": "Data Fetching",
+      "status": "planned",
+      "description": "Strategies for loading server data, managing async state, and keeping the UI in sync.",
+      "children": [
+        {
+          "id": "react-query",
+          "title": "React Query",
+          "status": "planned",
+          "description": "Server state management: caching, background refetching, and stale-while-revalidate out of the box.",
+          "badge": "recommended"
+        },
+        {
+          "id": "suspense-data",
+          "title": "Suspense",
+          "status": "planned",
+          "description": "Declarative async UI. Wrap async components with <Suspense fallback={...}> to show a loader until data is ready."
+        },
+        {
+          "id": "use-hook",
+          "title": "use() hook",
+          "status": "planned",
+          "badge": "NEW",
+          "description": "React 19's new hook to read a Promise or Context inside a component. Replaces some useEffect data-fetching patterns."
+        },
+        {
+          "id": "swr",
+          "title": "SWR",
+          "status": "skipped",
+          "description": "Vercel's stale-while-revalidate data-fetching library. Similar to React Query but more minimal."
+        }
+      ]
+    },
+    {
+      "id": "performance",
+      "title": "Performance",
+      "status": "planned",
+      "description": "Techniques to avoid unnecessary renders and keep large React apps fast.",
+      "children": [
+        {
+          "id": "react-memo",
+          "title": "React.memo",
+          "status": "planned",
+          "description": "Wrap a component to skip re-rendering when props haven't changed."
+        },
+        {
+          "id": "code-splitting",
+          "title": "Code Splitting",
+          "status": "planned",
+          "description": "Split the bundle at route or component boundaries to reduce initial load.",
+          "children": [
+            {
+              "id": "lazy-suspense",
+              "title": "lazy + Suspense",
+              "status": "planned",
+              "description": "Code-split any component so its bundle loads on demand. Combine with Suspense for seamless loading."
+            }
+          ]
+        },
+        {
+          "id": "concurrent-features",
+          "title": "Concurrent Features",
+          "status": "planned",
+          "description": "React 18+ APIs that keep the UI responsive during expensive updates.",
+          "children": [
+            {
+              "id": "use-transition",
+              "title": "useTransition",
+              "status": "planned",
+              "description": "Mark a state update as non-urgent so React keeps the UI responsive during expensive re-renders."
+            },
+            {
+              "id": "use-deferred-value",
+              "title": "useDeferredValue",
+              "status": "planned",
+              "description": "Defer re-rendering a part of the UI. The React 18+ answer to debouncing renders."
+            }
+          ]
+        },
+        {
+          "id": "profiler",
+          "title": "Profiler",
+          "status": "skipped",
+          "description": "Measure render performance with React DevTools Profiler or the <Profiler> API component."
+        }
+      ]
+    },
+    {
+      "id": "routing",
+      "title": "Routing",
+      "status": "in-progress",
+      "description": "Client-side navigation, route structure, and URL-driven state.",
+      "children": [
+        {
+          "id": "react-router",
+          "title": "React Router v6",
+          "status": "in-progress",
+          "description": "Client-side routing with a declarative nested routes API. createBrowserRouter is the recommended setup.",
+          "children": [
+            {
+              "id": "nested-routes",
+              "title": "Nested Routes",
+              "status": "planned",
+              "description": "Child routes render inside a parent's <Outlet>. Enables shared layouts and URL-driven composition."
+            },
+            {
+              "id": "route-guards",
+              "title": "Route Guards (loaders)",
+              "status": "planned",
+              "description": "v6.4+ loaders run before a route renders — ideal for auth checks and data pre-loading."
+            }
+          ]
+        },
+        {
+          "id": "router-hooks",
+          "title": "useNavigate & hooks",
+          "status": "planned",
+          "description": "Programmatic navigation with useNavigate, and read URL state with useParams, useSearchParams, useLocation."
+        }
+      ]
+    },
+    {
+      "id": "forms",
+      "title": "Forms",
+      "status": "planned",
+      "description": "Build and validate user input workflows in React.",
+      "children": [
+        {
+          "id": "controlled-inputs",
+          "title": "Controlled Inputs",
+          "status": "done",
+          "description": "React owns the input value via state. Every keystroke calls setState — the single source of truth."
+        },
+        {
+          "id": "react-hook-form",
+          "title": "React Hook Form",
+          "status": "planned",
+          "badge": "recommended",
+          "description": "Performant forms with uncontrolled inputs and minimal re-renders. register, watch, handleSubmit, formState."
+        },
+        {
+          "id": "zod",
+          "title": "Zod Validation",
+          "status": "planned",
+          "description": "Schema-first runtime validation. Pairs with React Hook Form's resolver for type-safe forms."
+        }
+      ]
+    },
+    {
+      "id": "testing",
+      "title": "Testing",
+      "status": "planned",
+      "description": "Validate component behavior from the user's perspective with modern testing tools.",
+      "children": [
+        {
+          "id": "rtl",
+          "title": "React Testing Library",
+          "status": "planned",
+          "description": "Test components from the user's perspective. Query by role, label, or text — not implementation details."
+        },
+        {
+          "id": "vitest",
+          "title": "Vitest",
+          "status": "planned",
+          "description": "Vite-native test runner. Faster than Jest in a Vite project, same @testing-library API."
+        },
+        {
+          "id": "user-event",
+          "title": "user-event",
+          "status": "planned",
+          "description": "Simulate realistic browser interactions (click, type, tab) rather than low-level fireEvent calls."
+        },
+        {
+          "id": "msw",
+          "title": "MSW",
+          "status": "skipped",
+          "description": "Mock Service Worker intercepts real network requests in tests and the browser — no need to mock fetch/axios."
+        }
+      ]
+    },
+    {
+      "id": "ecosystem",
+      "title": "Ecosystem & Tooling",
+      "status": "in-progress",
+      "description": "The tools and frameworks that surround React in a modern production stack.",
+      "children": [
+        {
+          "id": "vite",
+          "title": "Vite",
+          "status": "done",
+          "description": "Next-generation build tool. Native ESM dev server, extremely fast HMR, Rollup-based production builds."
+        },
+        {
+          "id": "typescript",
+          "title": "TypeScript",
+          "status": "in-progress",
+          "description": "Static typing for React: type props with interfaces, narrow event types, catch bugs at compile time."
+        },
+        {
+          "id": "tailwind",
+          "title": "Tailwind CSS",
+          "status": "in-progress",
+          "description": "Utility-first CSS. Tailwind v4 drops the config file — just @import 'tailwindcss' in your CSS entry point."
+        },
+        {
+          "id": "nextjs",
+          "title": "Next.js 15",
+          "status": "planned",
+          "description": "React framework with SSR, SSG, App Router, and React Server Components.",
+          "badge": "recommended"
+        },
+        {
+          "id": "turborepo",
+          "title": "Turborepo",
+          "status": "in-progress",
+          "description": "High-performance monorepo build system. Caches task outputs and runs pipelines in parallel."
+        }
+      ]
+    }
+  ]
+}
