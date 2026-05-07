@@ -46,46 +46,54 @@ function serveFederationDistPlugin() {
   }
 }
 
-export default defineConfig({
-  plugins: [
-    react(),
-    tailwindcss(),
-    federation({
-      name: 'react_v16',
-      filename: 'remoteEntry.js',
-      dts: false,
-      exposes: {
-        './LifecycleFeature': './src/exposed/LifecycleFeature.ts',
-      },
-      // singleton: false — v16's react-dom must never be substituted by the
-      // host's react-dom@19.x; requiredVersion rejects incompatible versions.
-      shared: {
-        'react-dom': {
-          singleton: false,
-          requiredVersion: '~16.14.0',
-          version: '16.14.0',
+export default defineConfig(() => {
+  const isWatchBuild = process.argv.includes('--watch')
+
+  return {
+    plugins: [
+      react(),
+      tailwindcss(),
+      federation({
+        name: 'react_v16',
+        filename: 'remoteEntry.js',
+        dts: false,
+        exposes: {
+          './LifecycleFeature': './src/exposed/LifecycleFeature.ts',
         },
-      },
-    }),
-    serveFederationDistPlugin(),
-  ],
-  build: {
-    // Keep false so vite build --watch (dev:mfe) updates files in-place
-    // rather than wiping dist/ before every incremental rebuild.
-    emptyOutDir: false,
-    watch: {
-      // @module-federation/vite materialises virtual modules as real .mjs
-      // files in node_modules/__mf__virtual/ and watches them via Rollup's
-      // addWatchFile.  Each build rewrites those files → triggers another
-      // build → infinite loop.  Excluding that directory breaks the chain.
-      exclude: /node_modules[\\/]__mf__virtual[\\/]/,
+        // singleton: false — v16's react-dom must never be substituted by the
+        // host's react-dom@19.x; requiredVersion rejects incompatible versions.
+        shared: {
+          'react-dom': {
+            singleton: false,
+            requiredVersion: '~16.14.0',
+            version: '16.14.0',
+          },
+        },
+      }),
+      serveFederationDistPlugin(),
+    ],
+    build: {
+      ...(isWatchBuild
+        ? {
+            // Keep false so vite build --watch (dev:mfe) updates files in-place
+            // rather than wiping dist/ before every incremental rebuild.
+            emptyOutDir: false,
+            watch: {
+              // @module-federation/vite materialises virtual modules as real .mjs
+              // files in node_modules/__mf__virtual/ and watches them via Rollup's
+              // addWatchFile. Each build rewrites those files and can cause an
+              // infinite loop; excluding that directory breaks the chain.
+              exclude: /node_modules[\\/]__mf__virtual[\\/]/,
+            },
+          }
+        : {}),
     },
-  },
-  server: {
-    port: 5174,
-    cors: true,
-  },
-  preview: {
-    port: 5174,
-  },
+    server: {
+      port: 5174,
+      cors: true,
+    },
+    preview: {
+      port: 5174,
+    },
+  }
 })

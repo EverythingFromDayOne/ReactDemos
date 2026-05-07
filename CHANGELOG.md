@@ -15,6 +15,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Monorepo build pipeline: `apps/react-v16/vite.config.ts` no longer enables `build.watch` for normal builds, preventing `turbo build` from hanging; watch config now applies only when running with `--watch`.
+- TypeScript/build compatibility fixes across federation host/remote:
+  - `apps/react-v19/src/components/AppNav.tsx`: use typed `NavLink` export from `react-router-typed`.
+  - `apps/react-v19/src/react-router-typed.ts`: add typed `NavLink` export.
+  - `apps/react-v19/src/pages/feature-compare/lifecycle/V16LifecyclePanel.tsx`: cast `globalThis` via `unknown` before indexing runtime key.
+  - `apps/react-v16/src/features/lifecycle/LifecycleFeaturePage.tsx`: mark unused `componentDidUpdate` props arg as `_prevProps`.
 - `apps/react-v19` feature compare tabs: removed planned-tab interaction guard so `state`, `context`, and `suspense` tabs are selectable and render their placeholder panels instead of being effectively disabled.
 - `apps/react-v19` + `apps/shell` dev UX with federated `react-v16`: added a dev-only Vite plugin to watch `apps/react-v16/dist` and trigger host `full-reload` on remote rebuilds, avoiding manual browser refresh while using `vite build --watch` + `vite preview`.
 - `apps/react-v19` `/roadmap`: node title **true horizontal center** (`px-12` symmetric; removed asymmetric `pr-[7.5rem]`); badge **`absolute`** `top-2 right-2`; taller nodes (`BRANCH_H` 78, `SPINE_H` 64).
@@ -26,6 +32,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Lint cleanup for stricter TS rules: replaced empty object props types (`{}`) with `Record<string, never>` in:
+  - `apps/react-v16/src/exposed/LifecycleFeature.ts`
+  - `apps/react-v16/src/features/lifecycle/LifecycleFeaturePage.tsx`
+  - `apps/react-v19/src/types/federation.d.ts`
 - `apps/react-v16` scripts: added `serve:mfe` to run build watch and preview in one command using `concurrently`, simplifying the local federation workflow.
 - `apps/react-v19` `TabBar`: improved tab affordance with pointer cursor, stronger hover/active styling, and clearer focus-visible ring for keyboard users.
 - **Federation plugin migration (Vite 8 compatibility):**

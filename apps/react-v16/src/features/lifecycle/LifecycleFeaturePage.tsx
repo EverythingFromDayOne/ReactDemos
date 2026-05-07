@@ -1,7 +1,7 @@
 import React from 'react'
 import { EVENTS } from '../../event-bus'
 
-type LifecycleFeaturePageProps = {}
+type LifecycleFeaturePageProps = Record<string, never>
 type LifecycleFeaturePageState = {
   count: number
 }
@@ -21,7 +21,7 @@ export class LifecycleFeaturePage extends React.Component<LifecycleFeaturePagePr
     this.dispatchLifecycleEvent('componentDidMount', EVENTS.MOUNTED)
   }
 
-  componentDidUpdate(prevProps: LifecycleFeaturePageProps, prevState: LifecycleFeaturePageState) {
+  componentDidUpdate(_prevProps: LifecycleFeaturePageProps, prevState: LifecycleFeaturePageState) {
     if (prevState.count !== this.state.count) {
       this.dispatchLifecycleEvent('componentDidUpdate', EVENTS.HOOK_FIRED)
     }

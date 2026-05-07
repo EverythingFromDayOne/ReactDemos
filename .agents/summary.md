@@ -45,6 +45,9 @@
 - Host dev reload behavior improved: `apps/shell` and `apps/react-v19` Vite configs include a dev-only watcher plugin that monitors `apps/react-v16/dist` and triggers host full reloads when the remote rebuilds.
 - Feature Compare tabs now behave as planned placeholders: `state`, `context`, and `suspense` tabs are selectable and render placeholder content instead of being blocked.
 - Tab UX in `apps/react-v19` was improved with clearer active styling, hover feedback, pointer cursor, and accessible focus-visible ring.
+- Build reliability restored: `react-v16` Vite config now enables watch mode only for explicit `--watch` runs, so root `pnpm run build`/`turbo build` completes instead of hanging on a persistent watcher.
+- Type safety/lint strictness tightened around federation and routing types (`NavLink` typed export, `globalThis` cast safety, and `{}` -> `Record<string, never>` updates in v16/v19 federation prop types).
+- Validation status: both `pnpm run build` and `pnpm run lint` pass successfully at repo root after these fixes.
 
 ## Pending
 
