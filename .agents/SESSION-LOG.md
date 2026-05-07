@@ -144,3 +144,23 @@
 ### Blockers
 
 - None.
+
+## 2026-05-08 (react-v19 production build fallback fix)
+
+- Investigated CI/Vercel production build failure in `apps/react-v19`:
+  - Error: `VITE_V16_REMOTE_URL is required for production builds`
+- Updated `apps/react-v19/vite.config.ts`:
+  - Added mode-aware fallback remote URL selection
+  - Production fallback: `https://react16.nxhhuy.tech/remoteEntry.js`
+  - Development fallback: `http://localhost:5174/remoteEntry.js`
+  - Removed hard throw that aborted production build when env var was missing
+- Validation:
+  - `pnpm --filter react-v19 build` passes after the change.
+
+### Next
+
+- Re-run GitHub Actions deploy workflow to confirm Vercel prebuild step passes in CI with current secrets/environment.
+
+### Blockers
+
+- None.
