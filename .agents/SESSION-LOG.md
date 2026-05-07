@@ -95,3 +95,27 @@
 - Reason for plugin switch: `@originjs/vite-plugin-federation@1.4.1` produced broken `remoteEntry.js` behavior under Vite 8 (runtime `forEach` failure in host load path).
 - Updated federation naming/imports to Module Federation 2 style (`react_v16` / `react_v19`) and updated host import module IDs accordingly.
 - Updated remote entry URL usage to `remoteEntry.js` path emitted by `@module-federation/vite` and disabled federation DTS generation (`dts: false`) to avoid TS 6 peer-compat warnings blocking clean output.
+
+## 2026-05-07 (federation DX + feature compare tab UX)
+
+- Added `apps/react-v16` script `serve:mfe` to run remote build-watch + preview together with `concurrently`, reducing local setup friction.
+- Documented and implemented dev-only host auto-reload for federated remote updates:
+  - `apps/shell/vite.config.ts`: added `watchFederatedRemote(...)` plugin.
+  - `apps/react-v19/vite.config.ts`: added `watchFederatedRemote(...)` plugin.
+  - Behavior: when `apps/react-v16/dist` changes, hosts broadcast HMR `full-reload` so browser refresh is automatic.
+- Fixed Feature Compare tab accessibility/behavior:
+  - Removed planned-tab click/keyboard blocking in `apps/react-v19/src/pages/feature-compare/TabBar.tsx`.
+  - `state`, `context`, and `suspense` tabs now open placeholder panels as intended.
+- Improved tab UI affordance in `TabBar.tsx`:
+  - pointer cursor on hover
+  - stronger active highlight
+  - clearer hover styles
+  - focus-visible ring for keyboard navigation
+
+### Next
+
+- Validate end-to-end dev loop once more (`react-v16 serve:mfe` + `shell dev` + `react-v19 dev`) and confirm auto-reload on v16 text edits from both host UIs.
+
+### Blockers
+
+- None currently.

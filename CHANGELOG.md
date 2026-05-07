@@ -15,6 +15,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- `apps/react-v19` feature compare tabs: removed planned-tab interaction guard so `state`, `context`, and `suspense` tabs are selectable and render their placeholder panels instead of being effectively disabled.
+- `apps/react-v19` + `apps/shell` dev UX with federated `react-v16`: added a dev-only Vite plugin to watch `apps/react-v16/dist` and trigger host `full-reload` on remote rebuilds, avoiding manual browser refresh while using `vite build --watch` + `vite preview`.
 - `apps/react-v19` `/roadmap`: node title **true horizontal center** (`px-12` symmetric; removed asymmetric `pr-[7.5rem]`); badge **`absolute`** `top-2 right-2`; taller nodes (`BRANCH_H` 78, `SPINE_H` 64).
 - `apps/react-v19` `/roadmap`: `RoadmapNode` uses **`foreignObject`** + HTML (`flex` center + `absolute` badge) so labels stay centered and badges do not affect text layout; `roadmap-layout.ts` node width/height/radius tuned for the overlay.
 - `apps/react-v19` `/roadmap`: when the detail panel is open, the header uses **right padding** (`360px` + gutter) so **Reset view** and the legend stay clear of the overlay.
@@ -24,6 +26,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- `apps/react-v16` scripts: added `serve:mfe` to run build watch and preview in one command using `concurrently`, simplifying the local federation workflow.
+- `apps/react-v19` `TabBar`: improved tab affordance with pointer cursor, stronger hover/active styling, and clearer focus-visible ring for keyboard users.
 - **Federation plugin migration (Vite 8 compatibility):**
   - Removed `@originjs/vite-plugin-federation` from `apps/react-v16`, `apps/react-v19`, and `apps/shell`.
   - Added `@module-federation/vite` in all three apps and updated Vite config imports/calls to `federation` from that package.

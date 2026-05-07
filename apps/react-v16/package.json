@@ -8,7 +8,8 @@
     "dev:mfe": "vite build --watch",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview --port 5174"
+    "preview": "vite preview --port 5174",
+    "serve:mfe": "concurrently --kill-others-on-fail --names build,serve --prefix-colors yellow,cyan \"pnpm dev:mfe\" \"pnpm preview\""
   },
   "dependencies": {
     "react": "^16.14.0",

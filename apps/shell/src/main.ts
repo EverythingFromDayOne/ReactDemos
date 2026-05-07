@@ -15,11 +15,13 @@ async function bootstrap(): Promise<void> {
   }
 
   if (paneV19) {
-    paneV19.textContent = 'react-v19 feature-compare coming soon'
-    paneV19.style.display = 'grid'
-    paneV19.style.placeItems = 'center'
-    paneV19.style.color = '#6b7280'
-    paneV19.style.fontWeight = '600'
+    const iframe = document.createElement('iframe')
+    iframe.src = 'http://localhost:5173/feature-compare'
+    iframe.title = 'react-v19 feature compare'
+    iframe.style.width = '100%'
+    iframe.style.height = '100%'
+    iframe.style.border = '0'
+    paneV19.replaceChildren(iframe)
   }
 
   try {
