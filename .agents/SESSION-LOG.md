@@ -119,3 +119,28 @@
 ### Blockers
 
 - None currently.
+
+## 2026-05-08 (build and lint stabilization)
+
+- Ran root `pnpm run build` (`turbo build`) and fixed blocking errors:
+  - `apps/react-v16/src/features/lifecycle/LifecycleFeaturePage.tsx`: renamed unused `prevProps` to `_prevProps`.
+  - `apps/react-v19/src/pages/feature-compare/lifecycle/V16LifecyclePanel.tsx`: safe `globalThis` cast (`unknown` first) for runtime key lookup.
+  - `apps/react-v19/src/react-router-typed.ts`: added typed `NavLink` re-export.
+  - `apps/react-v19/src/components/AppNav.tsx`: switched to typed `NavLink` import.
+  - `apps/react-v16/vite.config.ts`: made `build.watch` conditional on `--watch` to stop production builds from hanging.
+- Ran root `pnpm run lint` and fixed strict typing rule violations:
+  - Replaced empty object prop types (`{}`) with `Record<string, never>` in:
+    - `apps/react-v16/src/exposed/LifecycleFeature.ts`
+    - `apps/react-v16/src/features/lifecycle/LifecycleFeaturePage.tsx`
+    - `apps/react-v19/src/types/federation.d.ts`
+- Final validation:
+  - `pnpm run build` passes.
+  - `pnpm run lint` passes.
+
+### Next
+
+- Continue feature compare work with stable CI-safe build/lint baseline.
+
+### Blockers
+
+- None.

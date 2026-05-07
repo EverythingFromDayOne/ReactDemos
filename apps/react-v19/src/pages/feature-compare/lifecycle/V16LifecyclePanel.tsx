@@ -30,7 +30,7 @@ async function loadRemoteViaRuntime(remoteId: string): Promise<unknown> {
     throw new Error('Module Federation runtime is not initialized in this host.');
   }
 
-  const mfGlobal = (globalThis as Record<string, ModuleFederationGlobal>)[key];
+  const mfGlobal = (globalThis as unknown as Record<string, ModuleFederationGlobal>)[key];
   if (!mfGlobal?.initPromise) {
     throw new Error('Module Federation runtime initPromise is missing.');
   }

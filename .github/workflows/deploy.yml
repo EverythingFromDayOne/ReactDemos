@@ -9,7 +9,97 @@ on:
       - development
 
 jobs:
+  # ── Build jobs ────────────────────────────────────────────────────────────
+  # Run on every PR and every push so CI validates the build before merge.
+  # The Vercel prebuilt output is uploaded as an artifact so the deploy jobs
+  # can reuse it without rebuilding.
+
+  build-v19:
+    runs-on: ubuntu-latest
+    env:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_V19 }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node 20 with pnpm
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Enable corepack and pnpm 10
+        run: |
+          corepack enable
+          corepack prepare pnpm@10 --activate
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Vercel CLI
+        run: npm install -g vercel
+
+      - name: Pull Vercel environment
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Build Vercel project
+        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: vercel-output-v19
+          path: .vercel/output
+          retention-days: 1
+
+  build-v16:
+    runs-on: ubuntu-latest
+    env:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_V16 }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node 20 with pnpm
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Enable corepack and pnpm 10
+        run: |
+          corepack enable
+          corepack prepare pnpm@10 --activate
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Vercel CLI
+        run: npm install -g vercel
+
+      - name: Pull Vercel environment
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Build Vercel project
+        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: vercel-output-v16
+          path: .vercel/output
+          retention-days: 1
+
+  # ── Deploy jobs ───────────────────────────────────────────────────────────
+  # Push to development only. Download the prebuilt artifact from the build
+  # job — no rebuild, just upload to Vercel.
+
   deploy-v19:
+    needs: build-v19
     if: github.event_name == 'push'
     runs-on: ubuntu-latest
     env:
@@ -18,32 +108,14 @@ jobs:
     outputs:
       url: ${{ steps.deploy.outputs.url }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
         with:
-          fetch-depth: 0
-
-      - name: Setup Node 20 with pnpm
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
-      - name: Enable corepack and pnpm 10
-        run: |
-          corepack enable
-          corepack prepare pnpm@10 --activate
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+          name: vercel-output-v19
+          path: .vercel/output
 
       - name: Install Vercel CLI
         run: npm install -g vercel
-
-      - name: Pull Vercel environment
-        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
-
-      - name: Build Vercel project
-        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Deploy prebuilt artifacts
         id: deploy
@@ -52,6 +124,7 @@ jobs:
           echo "url=$url" >> "$GITHUB_OUTPUT"
 
   deploy-v16:
+    needs: build-v16
     if: github.event_name == 'push'
     runs-on: ubuntu-latest
     env:
@@ -60,38 +133,22 @@ jobs:
     outputs:
       url: ${{ steps.deploy.outputs.url }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
         with:
-          fetch-depth: 0
-
-      - name: Setup Node 20 with pnpm
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
-      - name: Enable corepack and pnpm 10
-        run: |
-          corepack enable
-          corepack prepare pnpm@10 --activate
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+          name: vercel-output-v16
+          path: .vercel/output
 
       - name: Install Vercel CLI
         run: npm install -g vercel
-
-      - name: Pull Vercel environment
-        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
-
-      - name: Build Vercel project
-        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Deploy prebuilt artifacts
         id: deploy
         run: |
           url="$(vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }})"
           echo "url=$url" >> "$GITHUB_OUTPUT"
+
+  # ── Notify ────────────────────────────────────────────────────────────────
 
   notify:
     if: github.event_name == 'push' && always()
@@ -126,6 +183,8 @@ jobs:
             -d chat_id="${TELEGRAM_CHAT_ID}" \
             -d parse_mode="HTML" \
             --data-urlencode text="${TEXT}"
+
+  # ── Changelog PR comment ──────────────────────────────────────────────────
 
   changelog-comment:
     runs-on: ubuntu-latest

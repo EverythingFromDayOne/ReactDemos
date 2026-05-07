@@ -4,7 +4,7 @@ import { createElement } from 'react'
 import { render, unmountComponentAtNode } from 'react-dom'
 import { LifecycleFeaturePage } from '../features/lifecycle/LifecycleFeaturePage'
 
-export type LifecycleFeatureProps = {}
+export type LifecycleFeatureProps = Record<string, never>
 
 export function mount(container: HTMLElement, props: LifecycleFeatureProps): () => void {
   render(createElement(LifecycleFeaturePage, props), container)
