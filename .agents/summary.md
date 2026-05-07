@@ -48,6 +48,7 @@
 - Build reliability restored: `react-v16` Vite config now enables watch mode only for explicit `--watch` runs, so root `pnpm run build`/`turbo build` completes instead of hanging on a persistent watcher.
 - Type safety/lint strictness tightened around federation and routing types (`NavLink` typed export, `globalThis` cast safety, and `{}` -> `Record<string, never>` updates in v16/v19 federation prop types).
 - Validation status: both `pnpm run build` and `pnpm run lint` pass successfully at repo root after these fixes.
+- CI deploy hardening: `apps/react-v19/vite.config.ts` now uses a production-safe fallback for the v16 remote (`https://react16.nxhhuy.tech/remoteEntry.js`) when `VITE_V16_REMOTE_URL` is not provided, preventing build-time crashes in GitHub Actions/Vercel.
 
 ## Pending
 
