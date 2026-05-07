@@ -80,3 +80,18 @@
 ### Blockers
 
 - None noted for this commit.
+
+## 2026-05-07
+
+- MFE federation setup note: `react-v16` `remoteEntry.js` is a build artifact; it is served by `vite preview`, not `vite dev`.
+- Added `react-v16` scripts for two-terminal MFE workflow:
+  - `dev:mfe` = `vite build --watch` (keeps `dist` fresh)
+  - `preview` = `vite preview --port 5174` (serves `dist/assets/remoteEntry.js`)
+- Added `preview.port: 5174` in `apps/react-v16/vite.config.ts` so all remote URLs stay consistent.
+- Workflow split clarified:
+  - Standalone v16 app dev: `pnpm --filter react-v16 dev`
+  - MFE host consumption: run `dev:mfe` + `preview` in parallel, then start `shell` or `react-v19`.
+- Replaced federation plugin in all three apps: removed `@originjs/vite-plugin-federation`, installed `@module-federation/vite`.
+- Reason for plugin switch: `@originjs/vite-plugin-federation@1.4.1` produced broken `remoteEntry.js` behavior under Vite 8 (runtime `forEach` failure in host load path).
+- Updated federation naming/imports to Module Federation 2 style (`react_v16` / `react_v19`) and updated host import module IDs accordingly.
+- Updated remote entry URL usage to `remoteEntry.js` path emitted by `@module-federation/vite` and disabled federation DTS generation (`dts: false`) to avoid TS 6 peer-compat warnings blocking clean output.

@@ -24,6 +24,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **Federation plugin migration (Vite 8 compatibility):**
+  - Removed `@originjs/vite-plugin-federation` from `apps/react-v16`, `apps/react-v19`, and `apps/shell`.
+  - Added `@module-federation/vite` in all three apps and updated Vite config imports/calls to `federation` from that package.
+  - Reason: `@originjs/vite-plugin-federation@1.4.1` generated broken `remoteEntry` runtime behavior on Vite 8 (host-side `forEach` failure during remote init).
+  - Updated federation container/module naming to underscore form (`react_v16`, `react_v19`) and aligned host remote imports/types (`react_v16/LifecycleFeature`).
+  - Updated remote entry URLs from `/assets/remoteEntry.js` to `/remoteEntry.js` to match current plugin output.
+
 - `apps/react-v19` `/roadmap`: **`RoadmapNode`** rectangle **stroke** uses **status color** (same as the status dot); floating zoom controls stack uses **`duration-150`** on **`RoadmapPage.tsx`**.
 
 - `apps/react-v19` `/roadmap`: replaced the flat grid with an SVG spine-and-branch roadmap (layout from `react-roadmap.json`, pan/zoom, zoom controls, detail panel). Removed `RoadmapGraph.tsx` and `useRoadmapPanZoom.ts`; added `roadmap-layout.ts`, `RoadmapCanvas.tsx`, and `RoadmapNode.tsx`.
