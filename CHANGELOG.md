@@ -15,6 +15,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- MFE production interoperability (`apps/react-v16` + `apps/react-v19`): set `shared: {}` explicitly in both `@module-federation/vite` configs to disable plugin auto-sharing (`normalizeShared(undefined)`), preventing host `react-dom@19` from overriding remote `react-dom@16` and fixing `TypeError: r is not a function` on `react19.nxhhuy.tech/feature-compare`.
+- Prompt guide correction: rewrote `prompts/mfe-fix-reactdom-production.md` to document the verified root cause and the correct fix (`shared: {}` in both apps, not removing `shared`).
+
 - `apps/react-v19` production build config: removed hard failure when `VITE_V16_REMOTE_URL` is unset and added mode-aware fallback remote entry URL (`https://react16.nxhhuy.tech/remoteEntry.js` for production, `http://localhost:5174/remoteEntry.js` for local dev), unblocking CI/Vercel builds.
 - Monorepo build pipeline: `apps/react-v16/vite.config.ts` no longer enables `build.watch` for normal builds, preventing `turbo build` from hanging; watch config now applies only when running with `--watch`.
 - TypeScript/build compatibility fixes across federation host/remote:

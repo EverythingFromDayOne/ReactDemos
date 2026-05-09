@@ -191,3 +191,28 @@
 ### Blockers
 
 - None.
+
+## 2026-05-09 (mfe react-dom production fix)
+
+- Investigated production-only failure on `https://react19.nxhhuy.tech/feature-compare`:
+  - Runtime error: `TypeError: r is not a function` from v16 `mount(...)`.
+- Verified root cause in `@module-federation/vite@1.15.2` internals:
+  - Omitting `shared` triggers `normalizeShared(undefined)` auto-sharing of dependencies as `singleton: true`.
+  - `react-dom` was resolved from global share cache, so host `react-dom@19` replaced remote `react-dom@16`; React 19 has no `render`, causing the crash.
+- Applied fix:
+  - `apps/react-v16/vite.config.ts`: set federation `shared: {}` with explanatory guard comments.
+  - `apps/react-v19/vite.config.ts`: set federation `shared: {}` with explanatory guard comments.
+- Updated documentation:
+  - Rewrote `prompts/mfe-fix-reactdom-production.md` to reflect the correct fix and acceptance criteria.
+- Validation:
+  - `pnpm --filter react-v16 --filter react-v19 build` passed.
+  - Output bundles no longer emit `__mfe_internal__*loadShare*react_mf_2_dom*` chunks.
+  - v16 built `LifecycleFeature` now calls bundled `render` directly.
+
+### Next
+
+- Push this branch and let Vercel rebuild both deployments; verify `react19.nxhhuy.tech/feature-compare` mounts React 16 panel without console errors.
+
+### Blockers
+
+- None.

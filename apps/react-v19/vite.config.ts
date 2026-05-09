@@ -53,9 +53,13 @@ export default defineConfig(({ mode }) => {
             type: 'module',
           },
         },
-        // No `shared` block on purpose. React 19 is bundled into the host so it
-        // never collides with the v16 remote's React 16 via the global
-        // `__mf_module_cache__.share` slot.
+        // CRITICAL: must be an explicit empty object, NOT omitted.
+        // @module-federation/vite's `normalizeShared(undefined)` auto-shares
+        // every dependency from package.json as `singleton: true`, which would
+        // push react-dom@19 into the global `__mf_module_cache__.share` slot
+        // that the v16 remote also reads from -> breaks v16's `render` import
+        // at runtime. Empty object opts out of auto-sharing on this side too.
+        shared: {},
       }),
       watchFederatedRemote(path.resolve(__dirname, '../react-v16/dist')),
     ],
