@@ -145,6 +145,33 @@
 
 - None.
 
+## 2026-05-09 (dynamic MFE remote URLs)
+
+- Implemented prompt `prompts/mfe-dynamic-remote-urls.md` end-to-end.
+- Updated `apps/react-v19/vite.config.ts`:
+  - removed `localRemoteUrl`, `productionRemoteUrl`, and `fallbackRemoteUrl`
+  - set federation remote entry to `env.VITE_V16_REMOTE_URL` directly
+- Updated `apps/shell/vite.config.ts`:
+  - switched to function-form `defineConfig(({ mode }) => ...)`
+  - added `loadEnv(mode, process.cwd(), '')`
+  - set federation remote entry from `VITE_V16_REMOTE_URL`
+- Updated `apps/shell/src/main.ts` error log to display `import.meta.env.VITE_V16_REMOTE_URL` instead of hardcoded localhost URL.
+- Added new shell env files:
+  - `apps/shell/.env` (`VITE_V16_REMOTE_URL=http://localhost:5174/remoteEntry.js`)
+  - `apps/shell/.env.production` (`VITE_V16_REMOTE_URL=https://react16.nxhhuy.tech/remoteEntry.js`)
+- Validation:
+  - `pnpm --filter react-v19 build` passed
+  - `pnpm --filter shell build` passed
+  - no `localhost:5174` matches remained in `apps/**/*.ts(x)` code files
+
+### Next
+
+- Keep host remote URLs env-driven and avoid reintroducing hardcoded remote entry values in TS configs/runtime logs.
+
+### Blockers
+
+- None.
+
 ## 2026-05-08 (react-v19 production build fallback fix)
 
 - Investigated CI/Vercel production build failure in `apps/react-v19`:
@@ -160,6 +187,31 @@
 ### Next
 
 - Re-run GitHub Actions deploy workflow to confirm Vercel prebuild step passes in CI with current secrets/environment.
+
+### Blockers
+
+- None.
+
+## 2026-05-09 (mfe react-dom production fix)
+
+- Investigated production-only failure on `https://react19.nxhhuy.tech/feature-compare`:
+  - Runtime error: `TypeError: r is not a function` from v16 `mount(...)`.
+- Verified root cause in `@module-federation/vite@1.15.2` internals:
+  - Omitting `shared` triggers `normalizeShared(undefined)` auto-sharing of dependencies as `singleton: true`.
+  - `react-dom` was resolved from global share cache, so host `react-dom@19` replaced remote `react-dom@16`; React 19 has no `render`, causing the crash.
+- Applied fix:
+  - `apps/react-v16/vite.config.ts`: set federation `shared: {}` with explanatory guard comments.
+  - `apps/react-v19/vite.config.ts`: set federation `shared: {}` with explanatory guard comments.
+- Updated documentation:
+  - Rewrote `prompts/mfe-fix-reactdom-production.md` to reflect the correct fix and acceptance criteria.
+- Validation:
+  - `pnpm --filter react-v16 --filter react-v19 build` passed.
+  - Output bundles no longer emit `__mfe_internal__*loadShare*react_mf_2_dom*` chunks.
+  - v16 built `LifecycleFeature` now calls bundled `render` directly.
+
+### Next
+
+- Push this branch and let Vercel rebuild both deployments; verify `react19.nxhhuy.tech/feature-compare` mounts React 16 panel without console errors.
 
 ### Blockers
 

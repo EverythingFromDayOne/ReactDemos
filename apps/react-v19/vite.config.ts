@@ -37,9 +37,6 @@ function watchFederatedRemote(remoteDistPath: string): Plugin {
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
-  const localRemoteUrl = 'http://localhost:5174/remoteEntry.js'
-  const productionRemoteUrl = 'https://react16.nxhhuy.tech/remoteEntry.js'
-  const fallbackRemoteUrl = mode === 'production' ? productionRemoteUrl : localRemoteUrl
   const remoteUrl = env.VITE_V16_REMOTE_URL
 
   return {
@@ -52,13 +49,17 @@ export default defineConfig(({ mode }) => {
         remotes: {
           react_v16: {
             name: 'react_v16',
-            entry: remoteUrl ?? fallbackRemoteUrl,
+            entry: remoteUrl,
             type: 'module',
           },
         },
-        // No `shared` block on purpose. React 19 is bundled into the host so it
-        // never collides with the v16 remote's React 16 via the global
-        // `__mf_module_cache__.share` slot.
+        // CRITICAL: must be an explicit empty object, NOT omitted.
+        // @module-federation/vite's `normalizeShared(undefined)` auto-shares
+        // every dependency from package.json as `singleton: true`, which would
+        // push react-dom@19 into the global `__mf_module_cache__.share` slot
+        // that the v16 remote also reads from -> breaks v16's `render` import
+        // at runtime. Empty object opts out of auto-sharing on this side too.
+        shared: {},
       }),
       watchFederatedRemote(path.resolve(__dirname, '../react-v16/dist')),
     ],

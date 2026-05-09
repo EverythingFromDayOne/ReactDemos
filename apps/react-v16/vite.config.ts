@@ -60,15 +60,15 @@ export default defineConfig(() => {
         exposes: {
           './LifecycleFeature': './src/exposed/LifecycleFeature.ts',
         },
-        // singleton: false — v16's react-dom must never be substituted by the
-        // host's react-dom@19.x; requiredVersion rejects incompatible versions.
-        shared: {
-          'react-dom': {
-            singleton: false,
-            requiredVersion: '~16.14.0',
-            version: '16.14.0',
-          },
-        },
+        // CRITICAL: must be an explicit empty object, NOT omitted.
+        // @module-federation/vite's `normalizeShared(undefined)` falls back to
+        // auto-sharing every dependency from package.json as `singleton: true`.
+        // For react-dom that means the host's react-dom@19 wins the
+        // `globalThis.__mf_module_cache__.share['react-dom']` slot and v16's
+        // `render` import resolves to undefined (React 19 dropped `render`).
+        // An empty object takes the other branch and disables auto-sharing
+        // entirely, so react-dom@16 is bundled directly into the remote chunk.
+        shared: {},
       }),
       serveFederationDistPlugin(),
     ],

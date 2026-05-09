@@ -2,7 +2,8 @@
 dist
 .turbo
 .vercel
-.env*
+.env.local
+.env.*.local
 *.local
 .vscode
 .idea
