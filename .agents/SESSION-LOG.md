@@ -145,6 +145,33 @@
 
 - None.
 
+## 2026-05-09 (dynamic MFE remote URLs)
+
+- Implemented prompt `prompts/mfe-dynamic-remote-urls.md` end-to-end.
+- Updated `apps/react-v19/vite.config.ts`:
+  - removed `localRemoteUrl`, `productionRemoteUrl`, and `fallbackRemoteUrl`
+  - set federation remote entry to `env.VITE_V16_REMOTE_URL` directly
+- Updated `apps/shell/vite.config.ts`:
+  - switched to function-form `defineConfig(({ mode }) => ...)`
+  - added `loadEnv(mode, process.cwd(), '')`
+  - set federation remote entry from `VITE_V16_REMOTE_URL`
+- Updated `apps/shell/src/main.ts` error log to display `import.meta.env.VITE_V16_REMOTE_URL` instead of hardcoded localhost URL.
+- Added new shell env files:
+  - `apps/shell/.env` (`VITE_V16_REMOTE_URL=http://localhost:5174/remoteEntry.js`)
+  - `apps/shell/.env.production` (`VITE_V16_REMOTE_URL=https://react16.nxhhuy.tech/remoteEntry.js`)
+- Validation:
+  - `pnpm --filter react-v19 build` passed
+  - `pnpm --filter shell build` passed
+  - no `localhost:5174` matches remained in `apps/**/*.ts(x)` code files
+
+### Next
+
+- Keep host remote URLs env-driven and avoid reintroducing hardcoded remote entry values in TS configs/runtime logs.
+
+### Blockers
+
+- None.
+
 ## 2026-05-08 (react-v19 production build fallback fix)
 
 - Investigated CI/Vercel production build failure in `apps/react-v19`:

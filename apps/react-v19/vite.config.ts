@@ -37,9 +37,6 @@ function watchFederatedRemote(remoteDistPath: string): Plugin {
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
-  const localRemoteUrl = 'http://localhost:5174/remoteEntry.js'
-  const productionRemoteUrl = 'https://react16.nxhhuy.tech/remoteEntry.js'
-  const fallbackRemoteUrl = mode === 'production' ? productionRemoteUrl : localRemoteUrl
   const remoteUrl = env.VITE_V16_REMOTE_URL
 
   return {
@@ -52,7 +49,7 @@ export default defineConfig(({ mode }) => {
         remotes: {
           react_v16: {
             name: 'react_v16',
-            entry: remoteUrl ?? fallbackRemoteUrl,
+            entry: remoteUrl,
             type: 'module',
           },
         },

@@ -33,6 +33,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- MFE remote entry configuration is now environment-driven for both hosts:
+  - `apps/react-v19/vite.config.ts` uses `env.VITE_V16_REMOTE_URL` directly (removed hardcoded/mode-switch fallback vars).
+  - `apps/shell/vite.config.ts` now loads `VITE_V16_REMOTE_URL` via `loadEnv(mode, ...)` and uses it for federation remote entry.
+  - `apps/shell/src/main.ts` error log now references `import.meta.env.VITE_V16_REMOTE_URL`.
+  - Added `apps/shell/.env` and `apps/shell/.env.production` with local/prod remote entry URLs.
 - Lint cleanup for stricter TS rules: replaced empty object props types (`{}`) with `Record<string, never>` in:
   - `apps/react-v16/src/exposed/LifecycleFeature.ts`
   - `apps/react-v16/src/features/lifecycle/LifecycleFeaturePage.tsx`

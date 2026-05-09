@@ -49,6 +49,10 @@
 - Type safety/lint strictness tightened around federation and routing types (`NavLink` typed export, `globalThis` cast safety, and `{}` -> `Record<string, never>` updates in v16/v19 federation prop types).
 - Validation status: both `pnpm run build` and `pnpm run lint` pass successfully at repo root after these fixes.
 - CI deploy hardening: `apps/react-v19/vite.config.ts` now uses a production-safe fallback for the v16 remote (`https://react16.nxhhuy.tech/remoteEntry.js`) when `VITE_V16_REMOTE_URL` is not provided, preventing build-time crashes in GitHub Actions/Vercel.
+- Dynamic remote URL cleanup completed per prompt:
+  - `react-v19` and `shell` now read `VITE_V16_REMOTE_URL` from app-local env files.
+  - `shell` has `.env` and `.env.production` added to mirror `react-v19` env pattern.
+  - Hardcoded `localhost:5174` TS/TSX references were removed from host runtime/config code paths.
 
 ## Pending
 

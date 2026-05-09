@@ -1,6 +1,6 @@
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { defineConfig, type Plugin } from 'vite'
+import { defineConfig, loadEnv, type Plugin } from 'vite'
 import tailwindcss from '@tailwindcss/vite'
 import { federation } from '@module-federation/vite'
 
@@ -34,23 +34,28 @@ function watchFederatedRemote(remoteDistPath: string): Plugin {
   }
 }
 
-export default defineConfig({
-  plugins: [
-    tailwindcss(),
-    federation({
-      name: 'shell',
-      dts: false,
-      remotes: {
-        react_v16: {
-          name: 'react_v16',
-          entry: 'http://localhost:5174/remoteEntry.js',
-          type: 'module',
+export default defineConfig(({ mode }) => {
+  const env = loadEnv(mode, process.cwd(), '')
+  const remoteUrl = env.VITE_V16_REMOTE_URL
+
+  return {
+    plugins: [
+      tailwindcss(),
+      federation({
+        name: 'shell',
+        dts: false,
+        remotes: {
+          react_v16: {
+            name: 'react_v16',
+            entry: remoteUrl,
+            type: 'module',
+          },
         },
-      },
-    }),
-    watchFederatedRemote(path.resolve(__dirname, '../react-v16/dist')),
-  ],
-  server: {
-    port: 3000,
-  },
+      }),
+      watchFederatedRemote(path.resolve(__dirname, '../react-v16/dist')),
+    ],
+    server: {
+      port: 3000,
+    },
+  }
 })

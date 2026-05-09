@@ -29,8 +29,9 @@ async function bootstrap(): Promise<void> {
     teardownV16 = remote.mount(paneV16, {})
     console.info('[shell] Mounted react-v16 LifecycleFeature')
   } catch (error) {
+    const configuredRemoteUrl = import.meta.env.VITE_V16_REMOTE_URL
     console.error(
-      '[shell] Failed to load react_v16/LifecycleFeature. Ensure react-v16 preview server is running on http://localhost:5174.',
+      `[shell] Failed to load react_v16/LifecycleFeature. Ensure the remote is reachable at ${configuredRemoteUrl}.`,
       error,
     )
     paneV16.textContent = 'Failed to load react-v16 remote. Check browser console for details.'
