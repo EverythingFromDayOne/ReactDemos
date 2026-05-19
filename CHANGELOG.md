@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **apps/react-v19 MFE remote (Phase 4a)**: exposes `./UseTransitionDemo` and `./UseActionStateDemo` via `remoteEntry.js`; explicit React 19 `shared` singletons; `serveFederationDistPlugin` for dev; `dev:mfe` / `serve:mfe` scripts; dark-mode-aware exposed components.
+- **Monorepo root `serve:mfe`**: runs `react-v16` and `react-v19` remotes together with `concurrently` (`pnpm serve:mfe`).
+
 - **CI** (`.github/workflows/deploy.yml`): `pull_request` on `development`; **`changelog-comment`** job posts or updates a sticky PR comment from `CHANGELOG.md` `## [Unreleased]` (`peter-evans/find-comment@v3`, `create-or-update-comment@v4`); **`deploy-v19`**, **`deploy-v16`**, and **`notify`** run only on **`push`** to `development`.
 
 - **apps/react-v19 `/roadmap`**: SVG spine-and-branch roadmap (`RoadmapPage`, `RoadmapCanvas`, `RoadmapNode`, `RoadmapDetailPanel`, `roadmap-layout.ts`, `roadmap.types.ts`), `react-router-dom`, `react-router-typed.ts` (React 19 JSX typings), lazy route in `App.tsx`, and `public/assets/react-roadmap.json`. Cursor prompt notes: `cursor-prompt-roadmap-page.md`, `cursor-prompt-roadmap-fixes.md`.

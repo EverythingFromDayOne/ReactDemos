@@ -5,10 +5,12 @@
   "scripts": {
     "dev": "turbo dev",
     "build": "turbo build",
-    "lint": "turbo lint"
+    "lint": "turbo lint",
+    "serve:mfe": "concurrently --kill-others-on-fail --names v16,v19 --prefix-colors yellow,cyan \"pnpm --filter react-v16 serve:mfe\" \"pnpm --filter react-v19 serve:mfe\""
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.2.4",
+    "concurrently": "^9.2.1",
     "husky": "^9.1.7",
     "tailwindcss": "^4.2.4",
     "turbo": "2.9.6"

@@ -41,6 +41,7 @@
 
 ## Latest Session Updates
 
+- **Phase 4a — `react-v19` as MFE remote**: `filename: remoteEntry.js`, exposes `UseTransitionDemo` / `UseActionStateDemo`, explicit `react` + `react-dom` singleton sharing (safe with `react-v16` `shared: {}`), `serveFederationDistPlugin` + `server.cors`, `dev:mfe` / `serve:mfe` on v19; root `pnpm serve:mfe` starts both remotes.
 - Federation local workflow polished: `apps/react-v16` now has `serve:mfe` (runs `dev:mfe` + `preview` together) for one-command remote hosting at `5174`.
 - Host dev reload behavior improved: `apps/shell` and `apps/react-v19` Vite configs include a dev-only watcher plugin that monitors `apps/react-v16/dist` and triggers host full reloads when the remote rebuilds.
 - Feature Compare tabs now behave as planned placeholders: `state`, `context`, and `suspense` tabs are selectable and render placeholder content instead of being blocked.

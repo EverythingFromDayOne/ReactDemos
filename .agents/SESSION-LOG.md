@@ -216,3 +216,19 @@
 ### Blockers
 
 - None.
+
+## 2026-05-19 (featr: expose react_v19/remoteEntry.js)
+
+- Phase 4a (`prompts/04a-expose-mfe-remote.md`): `apps/react-v19` dual-role MFE — still consumes `react_v16`, now exposes `UseTransitionDemo` and `UseActionStateDemo` at `http://localhost:5173/remoteEntry.js`.
+- `apps/react-v19/vite.config.ts`: `filename`, `exposes`, explicit React 19 `shared` singletons (updated comment: v16 `shared: {}` isolates it from shared scope), `serveFederationDistPlugin`, `server.cors`, `isWatchBuild` + `emptyOutDir: false`.
+- New exposed components: `src/exposed/UseTransitionDemo.tsx`, `UseActionStateDemo.tsx` (named + default exports, Tailwind `dark:` variants).
+- Scripts: `dev:mfe`, `serve:mfe` on v19; `concurrently` devDependency; root `package.json` `serve:mfe` runs both v16 and v19 remotes in one terminal.
+- Verified: `pnpm --filter react-v19 build` / `lint`; `curl` to `/remoteEntry.js` returns `application/javascript`.
+
+### Next
+
+- Prompt 04b: wire `nextjs-tech` host to consume `react_v19` remotes.
+
+### Blockers
+
+- None.

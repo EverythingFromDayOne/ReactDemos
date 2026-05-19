@@ -3,7 +3,9 @@ import { NavLink } from '../react-router-typed';
 
 const baseLinkStyle: CSSProperties = {
   borderRadius: '0.5rem',
-  border: '1px solid transparent',
+  borderWidth: '1px',
+  borderStyle: 'solid',
+  borderColor: 'transparent',
   padding: '0.375rem 0.75rem',
   fontSize: '0.875rem',
   fontWeight: 600,

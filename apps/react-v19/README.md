@@ -1,5 +1,22 @@
 # React + TypeScript + Vite
 
+## MFE local workflow
+
+Run from the monorepo root:
+
+```bash
+pnpm serve:mfe
+```
+
+That starts both remotes in one terminal (react-v16 on port 5174, react-v19 on port 5173).
+
+To run them separately:
+
+- `pnpm --filter react-v16 serve:mfe`
+- `pnpm --filter react-v19 serve:mfe`
+
+When both are running, `http://localhost:5173/remoteEntry.js` serves the federated module entry from `dist/`.
+
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:
